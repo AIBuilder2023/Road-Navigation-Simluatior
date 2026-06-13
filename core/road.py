@@ -36,7 +36,8 @@ def create_road_graph(NUM_NODES,MAX_DEGREE,EDGE_PROB):
                 if random.random() < EDGE_PROB:
                     if G.degree[i] < MAX_DEGREE and G.degree[j] < MAX_DEGREE \
                         and abs(i-j)<=CONNECTION_LIMIT \
-                        and not i in FORCE_SINGLE_ROAD:
+                        and not i in FORCE_SINGLE_ROAD\
+                        and not j in FORCE_SINGLE_ROAD:
                         length = random.randint(1, 7)
                         capacity = length*random.randint(1, MAX_LANES)
                         G.add_edge(i, j,
