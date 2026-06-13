@@ -29,12 +29,15 @@ def draw(G,cars,t,frames):
     #label
     edge_labels = nx.get_edge_attributes(G, "length")
 
+    #edge-width
+    width = [(G[i[0]][i[1]]["capacity"]/G[i[0]][i[1]]["length"])*2 for i in edges]
+
     #draw
     plt.figure(figsize=(15, 11.25))
     nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
     nx.draw_networkx_labels(G, pos, font_size=10)
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels,font_size=19)
-    nx.draw_networkx_edges(G, pos, width=2.5, alpha=0.6, edge_color=colors)
+    nx.draw_networkx_edges(G, pos, width=width, alpha=0.6, edge_color=colors)
 
     change = False
     for i in cars:
@@ -47,7 +50,7 @@ def draw(G,cars,t,frames):
         sys.exit()
     """
 
-    plt.title("Traffic")
+    plt.title("Traffic Simulation",size=18)
     plt.axis("off")
     plt.show()
     if GENERATE_GIF:
@@ -57,6 +60,6 @@ def draw(G,cars,t,frames):
 
         frames.append(imageio.v2.imread(buf))
     else:
-        plt.savefig(f"logs/frame{t}.png")
+        plt.savefig(f"logs/frames/frame{t}.png")
 
     plt.close('all')

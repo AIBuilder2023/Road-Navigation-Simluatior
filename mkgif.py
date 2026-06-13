@@ -2,6 +2,7 @@ import imageio
 from attributes import *
 from pathlib import Path
 from tqdm import tqdm
+from time import time,localtime,strftime
 
 def count_files_in_directory(directory):
     # 确保路径存在
@@ -13,13 +14,13 @@ def count_files_in_directory(directory):
 
 
 # 示例使用
-directory_path = Path("logs")
+directory_path = Path("logs/frames")
 file_count = count_files_in_directory(directory_path)
 print("total frames:",file_count)
 
 
 frames = []
 for t in tqdm(range(file_count)):
-    frames.append(imageio.imread(f"logs/frame{t}.png"))
+    frames.append(imageio.imread(f"logs/frames/frame{t}.png"))
 
-imageio.mimsave("traffic.gif", frames, fps=FPS)
+imageio.mimsave(f"logs/gif/traffic-{strftime('%Y%m%d-%H%M%S', localtime(time()))}.gif", frames, fps=FPS)

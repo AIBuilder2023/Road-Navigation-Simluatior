@@ -15,4 +15,4 @@ class car():
         self.progress = 0
         self.time_cost = 0
         self.destination = False
-        self.speed = 0
+        self.tot_distance = 0

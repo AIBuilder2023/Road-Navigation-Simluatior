@@ -11,19 +11,27 @@ def congestion_calculation(G,cars):
         if not i.destination:
             G[i.route[i.progress]][i.route[i.progress + 1]]['cars'] += 1
     for edge in edges:
-        G[edge[0]][edge[1]]['congestion'] = G[edge[0]][edge[1]]['cars'] / G[edge[0]][edge[1]]['capacity']
+        if G[edge[0]][edge[1]]['cars'] <= G[edge[0]][edge[1]]['capacity'] / G[edge[0]][edge[1]]['length']:
+            G[edge[0]][edge[1]]['congestion'] = 0
+        else:
+            G[edge[0]][edge[1]]['congestion'] = G[edge[0]][edge[1]]['cars'] / G[edge[0]][edge[1]]['capacity']
+        G[edge[0]][edge[1]]['congestion_logs'].append(G[edge[0]][edge[1]]['congestion'])
 
 def cars_run(G,cars,FPS,SPEED):
     for i in cars:
         if not i.destination:
-            if G[i.route[i.progress]][i.route[i.progress + 1]]['capacity'] >= 0.9:
-                i.distance += SPEED/FPS/G[i.route[i.progress]][i.route[i.progress + 1]]['length']
-            elif G[i.route[i.progress]][i.route[i.progress + 1]]['capacity'] >= 0.6:
-                i.distance += SPEED/2/FPS/G[i.route[i.progress]][i.route[i.progress + 1]]['length']
-            elif G[i.route[i.progress]][i.route[i.progress + 1]]['capacity'] >= 0.3:
-                i.distance += SPEED/3/FPS/G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+            if G[i.route[i.progress]][i.route[i.progress + 1]]['congestion'] <= 0.1:
+                i.distance += SPEED / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+            elif G[i.route[i.progress]][i.route[i.progress + 1]]['congestion'] <= 0.4:
+                i.distance += SPEED / 2 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / 2 /FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+            elif G[i.route[i.progress]][i.route[i.progress + 1]]['congestion'] <= 0.6:
+                i.distance += SPEED / 3 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / 3 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
             else:
-                i.distance += SPEED/4/FPS/G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.distance += SPEED / 4 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / 4 /FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
 
             if i.distance >=1:
                 i.progress += 1

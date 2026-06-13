@@ -1,11 +1,13 @@
 from core.road import *
 import core.car as car
 import algorithm.astar as astar
-import visualize.road_draw
+import visualize.road_draw as visualize
+import visualize.result_congestion as result_congestion
 import core.processing as processing
-import time
-import random
 from attributes import *
+
+from time import time,localtime,strftime
+import random
 from tqdm import tqdm
 import imageio
 
@@ -25,12 +27,12 @@ for i in range(NUM_CARS_INITIALLY):
     astarres = astar.astar(G,cars[i].startPt, cars[i].endPt,pos)
     cars[i].route = astarres
     num_cars += 1
-    #print(f"{i}车想从{cars[i].startPt}前往{cars[i].endPt}，他的最优A*路径是${astarres}")
 
 frames = []
 for t in tqdm(range(FRAMES)):
     processing.whole_process(G,cars,FPS,SPEED)
-    visualize.road_draw.draw(G,cars,t,frames)
+    if SHOW_MID_PROCESS and t%FRAMES_PER_OUTPUT==0:
+        visualize.draw(G,cars,t,frames)
     if random.random() < NEW_CAR_PROB:
         #+print("NEW CAR")
         cars.append(car.car(NUM_NODES, pos))
@@ -39,5 +41,16 @@ for t in tqdm(range(FRAMES)):
         num_cars += 1
     #frames.append(imageio.imread(f"logs/frame{t}.png"))
     #print(f"frame {t}")
+passed = 0
+tot_time = 0
+tot_distance = 0
+for i in cars:
+    if i.destination:
+        passed += 1
+        tot_time += i.time_cost
+        tot_distance += i.tot_distance
+avg_time = tot_time/passed
+avg_speed = tot_distance / tot_time
+result_congestion.draw(G,passed,avg_time,avg_speed)
 if GENERATE_GIF:
-    imageio.mimsave("traffic.gif", frames, fps=FPS)
+    imageio.mimsave(f"logs/gif/traffic{strftime('%Y%m%d-%H%M%S',localtime(time()))}.gif", frames, fps=FPS)
