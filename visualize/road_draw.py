@@ -52,7 +52,7 @@ def draw(G,cars,t,frames):
 
     plt.title("Traffic Simulation",size=18)
     plt.axis("off")
-    plt.show()
+    #plt.show()
     if GENERATE_GIF:
         buf = BytesIO()
         plt.savefig(buf, format="png")

@@ -1,0 +1,5 @@
+networkx~=3.6.1
+matplotlib~=3.11.0
+ImageIO~=2.37.3
+tqdm~=4.68.2
+pathlib~=1.0.1
