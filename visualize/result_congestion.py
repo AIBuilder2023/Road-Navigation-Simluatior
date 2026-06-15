@@ -33,13 +33,23 @@ def draw(G,passed,avg_time,avg_speed):
 
 
     text_font_size = 18*PIC_SCALE
+
     plt.title("Traffic Simulation Result - Congestion",size=text_font_size)
     plt.axis("off")
-    fig.text(-0.1, 0.10, f"FPS: {FPS}", size=text_font_size, transform=ax.transAxes)
-    fig.text(-0.1, 0.05, f"SPEED: {SPEED}", size=text_font_size, transform=ax.transAxes)
-    fig.text(-0.1, -0.00, f"Car passed: {passed}", size=text_font_size, transform=ax.transAxes)
-    fig.text(-0.1, -0.05, f"Avg time cost: {round(avg_time,3)}({round(avg_time*FPS,3)}frames)", size=text_font_size, transform=ax.transAxes)
-    fig.text(-0.1, -0.10, f"Avg speed: {round(avg_speed,3)}", size=text_font_size, transform=ax.transAxes)
+
+    stats = (f"FPS: {FPS}\n"
+             f"SPEED: {SPEED}\n"
+             f"Car passed: {passed}\n"
+             f"Avg time cost: {round(avg_time, 3)}({round(avg_time * FPS, 3)}frames)\n"
+             f"Avg speed: {round(avg_speed, 3)}")
+    fig.text(
+        0.02,
+        0.05,
+        stats,
+        fontsize=text_font_size,
+        ha="left",
+        va="bottom"
+    )
     fig.savefig(f"logs/results/congestion-{strftime('%Y%m%d-%H%M%S',localtime(time()))}.png")
 
     plt.close('all')

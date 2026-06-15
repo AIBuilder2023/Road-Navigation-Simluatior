@@ -24,8 +24,8 @@ cars = []
 num_cars = 0
 for i in range(NUM_CARS_INITIALLY):
     cars.append(car.car(NUM_NODES,pos))
-    astarres = astar.astar(G,cars[i].startPt, cars[i].endPt,pos)
-    cars[i].route = astarres
+    astarRes = astar.astar(G,cars[i].startPt, cars[i].endPt,pos)
+    cars[i].route = astarRes
     num_cars += 1
 
 frames = []
@@ -34,13 +34,11 @@ for t in tqdm(range(FRAMES)):
     if SHOW_MID_PROCESS and t%FRAMES_PER_OUTPUT==0:
         visualize.draw(G,cars,t,frames)
     if random.random() < NEW_CAR_PROB:
-        #+print("NEW CAR")
         cars.append(car.car(NUM_NODES, pos))
-        astarres = astar.astar(G, cars[num_cars].startPt, cars[num_cars].endPt, pos)
-        cars[num_cars].route = astarres
+        astarRes = astar.astar(G, cars[num_cars].startPt, cars[num_cars].endPt, pos)
+        cars[num_cars].route = astarRes
         num_cars += 1
-    #frames.append(imageio.imread(f"logs/frame{t}.png"))
-    #print(f"frame {t}")
+
 passed = 0
 tot_time = 0
 tot_avg_speed = 0
