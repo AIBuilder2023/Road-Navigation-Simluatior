@@ -25,18 +25,19 @@ def cars_run(G,cars,FPS,SPEED):
                 i.tot_distance += SPEED / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
             elif G[i.route[i.progress]][i.route[i.progress + 1]]['congestion'] <= 0.4:
                 i.distance += SPEED / 2 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
-                i.tot_distance += SPEED / 2 /FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / 2 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
             elif G[i.route[i.progress]][i.route[i.progress + 1]]['congestion'] <= 0.6:
                 i.distance += SPEED / 3 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
                 i.tot_distance += SPEED / 3 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
             else:
                 i.distance += SPEED / 4 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
-                i.tot_distance += SPEED / 4 /FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
+                i.tot_distance += SPEED / 4 / FPS / G[i.route[i.progress]][i.route[i.progress + 1]]['length']
 
             if i.distance >=1:
                 i.progress += 1
                 i.distance = 0
-        i.time_cost += 1
+
+            i.time_cost += 1
 
 def cars_finish(cars):
     for i in cars:

@@ -43,14 +43,14 @@ for t in tqdm(range(FRAMES)):
     #print(f"frame {t}")
 passed = 0
 tot_time = 0
-tot_distance = 0
+tot_avg_speed = 0
 for i in cars:
     if i.destination:
         passed += 1
-        tot_time += i.time_cost
-        tot_distance += i.tot_distance
+        tot_time += i.time_cost / FPS
+        tot_avg_speed += i.tot_distance / i.time_cost * FPS
 avg_time = tot_time/passed
-avg_speed = tot_distance / tot_time
+avg_speed = tot_avg_speed / passed
 result_congestion.draw(G,passed,avg_time,avg_speed)
 if GENERATE_GIF:
     imageio.mimsave(f"logs/gif/traffic{strftime('%Y%m%d-%H%M%S',localtime(time()))}.gif", frames, fps=FPS)

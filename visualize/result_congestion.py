@@ -24,7 +24,7 @@ def draw(G,passed,avg_time,avg_speed):
 
 
     #draw
-    fig, ax = plt.subplots(figsize=(15, 11.25))
+    fig, ax = plt.subplots(figsize=(15*PIC_SCALE, 11.25*PIC_SCALE))
     #plt.figure(figsize=(15, 11.25))
     nx.draw_networkx_nodes(G, pos, node_size=300, node_color="lightblue")
     nx.draw_networkx_labels(G, pos, font_size=10)
@@ -32,14 +32,14 @@ def draw(G,passed,avg_time,avg_speed):
     nx.draw_networkx_edges(G, pos, width=width, alpha=0.6, edge_color=colors)
 
 
-
-    plt.title("Traffic Simulation Result - Congestion",size=18)
+    text_font_size = 18*PIC_SCALE
+    plt.title("Traffic Simulation Result - Congestion",size=text_font_size)
     plt.axis("off")
-    fig.text(-0.1, 0.10, f"FPS:{FPS}", size=18, transform=ax.transAxes)
-    fig.text(-0.1, 0.05, f"SPEED:{SPEED}", size=18, transform=ax.transAxes)
-    fig.text(-0.1, -0.00, f"Car passed:{passed}", size=18, transform=ax.transAxes)
-    fig.text(-0.1, -0.05, f"Avg time cost:{avg_time}", size=18, transform=ax.transAxes)
-    fig.text(-0.1, -0.10, f"Avg speed:{avg_speed}", size=18, transform=ax.transAxes)
+    fig.text(-0.1, 0.10, f"FPS: {FPS}", size=text_font_size, transform=ax.transAxes)
+    fig.text(-0.1, 0.05, f"SPEED: {SPEED}", size=text_font_size, transform=ax.transAxes)
+    fig.text(-0.1, -0.00, f"Car passed: {passed}", size=text_font_size, transform=ax.transAxes)
+    fig.text(-0.1, -0.05, f"Avg time cost: {round(avg_time,3)}({round(avg_time*FPS,3)}frames)", size=text_font_size, transform=ax.transAxes)
+    fig.text(-0.1, -0.10, f"Avg speed: {round(avg_speed,3)}", size=text_font_size, transform=ax.transAxes)
     fig.savefig(f"logs/results/congestion-{strftime('%Y%m%d-%H%M%S',localtime(time()))}.png")
 
     plt.close('all')
